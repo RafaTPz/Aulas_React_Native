@@ -1,21 +1,20 @@
 export interface Task {
-    id: number
-    title: string
-    description: string | null
-    completed: number
-    createdAt: string
-    filter: TaskFilter
+  id: number;
+  title: string;
+  description: string | null;
+  completed: number;
+  createdAt: string;
 }
 
-export type TaskFilter = 'all' | 'pending' | 'completed'
+export type TaskFilter = 'all' | 'pending' | 'completed';
 
 export interface CreateTaskInput {
-    title: string
-    description: string | null
+  title: string;
+  description: string | null;
 }
 
 export interface UpdateTaskInput {
-    id: number
-    title: string
-    description: string | null
+  id: number;
+  title: string;
+  description: string | null;
 }
