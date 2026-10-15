@@ -2,15 +2,27 @@ import * as SQLite from 'expo-sqlite';
 
 const DATABASE_NAME = 'tasks.db';
 
-let database: SQLite.SQLiteDatabase | null = null;
+let database: Promise<SQLite.SQLiteDatabase> | null = null;
 
 export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
   if (database !== null) {
     return database;
   }
 
-  database = await SQLite.openDatabaseAsync(DATABASE_NAME);
-  await runMigrations(database);
+  // Compartilha também a inicialização, para nenhuma consulta preceder a migração.
+  database = (async () => {
+    const db = await SQLite.openDatabaseAsync(DATABASE_NAME);
+    try {
+      await runMigrations(db);
+      return db;
+    } catch (error) {
+      await db.closeAsync();
+      throw error;
+    }
+  })().catch((error) => {
+    database = null;
+    throw error;
+  });
 
   return database;
 }
