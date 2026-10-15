@@ -1,56 +1,62 @@
-# Welcome to your Expo app 👋
+# Minhas Tarefas
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Projeto de estudos em React Native, Expo SDK 57, Expo Router, NativeWind e SQLite. Implementação até a etapa 11 do roteiro.
 
-## Get started
+## Executar (etapa 11)
 
-1. Install dependencies
+Requer Node.js 22.13 ou superior, npm e Expo Go compatível com SDK 57 no celular.
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```sh
+npm ci
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+O terminal exibirá o endereço e o QR Code do Expo. Conecte o celular e o computador à mesma rede Wi-Fi e escaneie o código com o Expo Go. No terminal interativo, `a` abre o emulador Android, `i` abre o simulador iOS (somente macOS), `r` recarrega, `j` abre o depurador e `Ctrl+C` encerra o servidor. O CLI local é executado pelo npm, sem instalação global.
 
-### Other setup steps
+## Funcionalidades
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+- Criar tarefas com título obrigatório e descrição opcional.
+- Editar, concluir, reabrir e excluir tarefas com confirmação.
+- Filtrar por Todas, Pendentes e Concluídas, com contadores.
+- Persistir tarefas localmente em SQLite entre sessões.
+- Atualizar a lista ao retornar do formulário ou puxar para atualizar.
+- Exibir carregamento, mensagens de lista vazia e erros com opção de nova tentativa.
 
-## Learn more
+Login, Firebase, perfil e câmera ficam fora das etapas 1–11 deste roteiro. Não é necessário configurar credenciais.
 
-To learn more about developing your project with Expo, look at the following resources:
+## Etapas e organização
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+As etapas 1–6 já estavam registradas no histórico ao iniciar esta continuação. Cada etapa seguinte recebeu seu próprio commit:
 
-## Join the community
+| Etapa | Implementação |
+| --- | --- |
+| 1 | Projeto Expo com TypeScript |
+| 2 | Dependências do SDK 57 |
+| 3 | Expo Router e esquema de links |
+| 4 | NativeWind, Tailwind, Babel e Metro |
+| 5 | Tipos de tarefas em src/types/task.ts |
+| 6 | Conexão e tabela SQLite em src/database/database.ts |
+| 7 | CRUD em src/database/taskRepository.ts, com inicialização compartilhada do banco |
+| 8 | Estado, filtros e recarga em src/hooks/useTasks.ts |
+| 9 | Componentes TaskItem, FilterBar e EmptyState |
+| 10 | Navegação, lista e formulário em app/ |
+| 11 | Execução, compatibilidade das dependências e validações |
 
-Join our community of developers creating universal apps.
+O ponto de entrada é `expo-router/entry`. Os arquivos App.tsx e index.ts na raiz são exercícios anteriores e não participam da navegação atual.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Verificações
+
+```sh
+npm run typecheck
+npm test
+npx expo install --check
+npx expo export --platform android --platform ios
+```
+
+Os testes usam o repositório real com SQLite do Node como adaptador da ponte nativa. Verificam CRUD, parâmetros SQL, inicialização concorrente, recuperação de falha e persistência em arquivo. A execução no celular deve confirmar também interação, teclado, navegação e aparência nativa.
+
+O alvo desta etapa é Android/iOS pelo Expo Go. A versão web do SQLite exige configuração adicional de WebAssembly e cabeçalhos de isolamento; não faz parte deste roteiro.
+
+Validação desta entrega: TypeScript, quatro testes e exportação dos bundles Android/iOS passaram. O teste de interação no aparelho ainda deve ser realizado. A auditoria npm reportou 38 alertas nas dependências (14 moderados, 23 altos e 1 crítico); corrigir todos exige uma revisão separada de compatibilidade, pois há sugestões que trocam as versões principais de Expo e Tailwind.
+
+Documentação consultada: [Expo SDK 57](https://docs.expo.dev/versions/v57.0.0/) e [SQLite no SDK 57](https://docs.expo.dev/versions/v57.0.0/sdk/sqlite/).
